@@ -32,7 +32,8 @@ body {
   gap: 0.2rem;
 
   border-radius: 10px;
-  border: 1px solid orange;
+
+  background-color: orange;
 }
 
 .cardDiv:hover {
@@ -98,12 +99,4 @@ body {
 }
 .highestScore {
   font-size: 1.3rem;
-}
-
-.restartBtn {
-  height: 40px;
-  width: 100px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
