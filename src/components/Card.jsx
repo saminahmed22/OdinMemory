@@ -1,6 +1,6 @@
-export default function Card({ name = "Name", image = "Image" }) {
+export default function Card({ name, image, handleClick }) {
   return (
-    <div className={`card_${name} cardDiv`}>
+    <div className={`card_${name} cardDiv`} onClick={handleClick}>
       <div className="imageDiv">
         <img className="image" src={image} alt="Poke Image" />
       </div>
