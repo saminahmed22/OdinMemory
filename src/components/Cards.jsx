@@ -1,80 +1,5 @@
 import Card from "./Card";
-import { useState } from "react";
-
-const cardsArrInit = [
-  {
-    key: 1,
-    image: "./src/assets/image/poke.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 2,
-    image: "./src/assets/image/poke2.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 3,
-    image: "./src/assets/image/poke3.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 4,
-    image: "./src/assets/image/poke4.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 5,
-    image: "./src/assets/image/poke5.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 6,
-    image: "./src/assets/image/poke.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 7,
-    image: "./src/assets/image/poke2.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 8,
-    image: "./src/assets/image/poke4.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 9,
-    image: "./src/assets/image/poke3.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 10,
-    image: "./src/assets/image/poke5.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 11,
-    image: "./src/assets/image/poke2.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-  {
-    key: 12,
-    image: "./src/assets/image/poke.jpg",
-    name: "Bulbasaur",
-    clicked: false,
-  },
-];
+import { useState, useEffect } from "react";
 
 function scrambleCards(arr, setCardsArr) {
   const shuffled = structuredClone(arr);
@@ -88,14 +13,37 @@ function scrambleCards(arr, setCardsArr) {
 }
 
 export default function Cards({ scores, setScores }) {
-  const [cardsArr, setCardsArr] = useState(structuredClone(cardsArrInit));
+  const [cardsArrInit, setCardsArrInit] = useState([]);
+  const [cardsArr, setCardsArr] = useState([]);
+
+  useEffect(() => {
+    const fetchPokemons = async () => {
+      const promises = [];
+      for (let i = 1; i < 13; i++) {
+        const url = `https://pokeapi.co/api/v2/pokemon/${i}`;
+        const response = await fetch(url);
+        let result = await response.json();
+        promises.push({
+          key: i + 1,
+          image: result.sprites.front_default,
+          name:
+            String(result.name).charAt(0).toUpperCase() +
+            String(result.name).slice(1),
+          clicked: false,
+        });
+      }
+      setCardsArrInit(structuredClone(promises));
+      setCardsArr(structuredClone(promises));
+    };
+    fetchPokemons();
+  }, []);
 
   return (
     <div className="cardsContainer">
       {cardsArr.map((card, index) => (
         <Card
           key={index}
-          name={card.key}
+          name={card.name}
           image={card.image}
           handleClick={() => {
             if (!card.clicked) {
